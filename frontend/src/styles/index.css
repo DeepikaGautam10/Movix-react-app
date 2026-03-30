@@ -1,0 +1,210 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a1a;
+  --surface2: #242424;
+  --red: #e50914;
+  --red-dark: #b2070f;
+  --text: #e8e8e8;
+  --text-muted: #888888;
+  --border: #2a2a2a;
+  --navbar-width: 210px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  min-height: 100vh;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 4px; }
+
+/* app layout */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: var(--navbar-width);
+  padding: 32px 36px;
+  min-height: 100vh;
+}
+
+/* page title */
+.page-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 30px;
+  letter-spacing: 1.5px;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+/* search bar */
+.search-bar {
+  width: 100%;
+  padding: 11px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 26px;
+  transition: border-color 0.2s;
+}
+.search-bar::placeholder { color: var(--text-muted); }
+.search-bar:focus { border-color: var(--red); }
+
+/* card grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 18px;
+}
+
+/* card */
+.card {
+  background: var(--surface);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.18s ease;
+}
+.card:hover { transform: scale(1.04); }
+
+.card-poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+  background: var(--surface2);
+}
+
+.card-no-image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.card-info {
+  padding: 9px 10px 11px;
+}
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+
+.card-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-rating {
+  color: #f5c518;
+  font-weight: 600;
+}
+
+/* bookmark button on card */
+.bookmark-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s;
+  backdrop-filter: blur(4px);
+}
+.bookmark-btn:hover { background: var(--red); }
+.bookmark-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+.bookmark-btn.bookmarked svg {
+  fill: var(--red);
+  stroke: var(--red);
+}
+
+/* load more button */
+.load-more-btn {
+  display: block;
+  margin: 30px auto 0;
+  padding: 10px 36px;
+  background: var(--red);
+  color: white;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.load-more-btn:hover { background: var(--red-dark); }
+.load-more-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* status messages */
+.status-msg {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 70px 0;
+  font-size: 15px;
+}
+
+.error-msg {
+  text-align: center;
+  color: var(--red);
+  padding: 70px 0;
+  font-size: 15px;
+}
+
+/* empty state */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+.empty-state h2 {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 30px;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.empty-state p { font-size: 14px; line-height: 1.6; }
