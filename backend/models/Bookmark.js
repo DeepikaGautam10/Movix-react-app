@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const bookmarkSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   tmdbId: {
     type: Number,
     required: true,
@@ -33,4 +38,6 @@ const bookmarkSchema = new mongoose.Schema({
   },
 });
 
+// unique per user — same movie can be bookmarked by different users
+bookmarkSchema.index({ userId: 1, tmdbId: 1 }, { unique: true });
 module.exports = mongoose.model("Bookmark", bookmarkSchema);

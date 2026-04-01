@@ -1,8 +1,15 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth.jsx";
 import "../styles/Navbar.css";
 
 function Navbar() {
-  const userName = "Deepika";
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -16,10 +23,21 @@ function Navbar() {
       </div>
 
       <div className="navbar-user">
-        <div className="user-avatar">
-          {userName.charAt(0).toUpperCase()}
-        </div>
-        <span className="user-name">{userName}</span>
+        {user ? (
+          <>
+            <div className="user-avatar">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+            <div className="user-info">
+              <span className="user-name">{user.name.split(' ')[0]}</span>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          </>
+        ) : (
+          <NavLink to="/login" className="login-link">Login</NavLink>
+        )}
       </div>
     </nav>
   );

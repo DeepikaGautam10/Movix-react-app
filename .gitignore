@@ -1,5 +1,14 @@
+# dependencies
 node_modules
 dist
 dist-ssr
 *.local
 
+# env — add this
+.env
+backend/.env
+frontend/.env
+
+# os
+.DS_Store
+Thumbs.db
