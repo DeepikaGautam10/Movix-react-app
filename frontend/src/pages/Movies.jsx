@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "../components/Card";
-import useBookmark from "../hooks/useBookmark";
+import { SkeletonGrid } from "../components/Skeleton";
 
 function Movies() {
   const [movies, setMovies] = useState([]);
@@ -11,8 +11,6 @@ function Movies() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
 
-  const { isBookmarked, toggleBookmark } = useBookmark();
-
   const fetchMovies = async (pageNum, append = false) => {
     try {
       if (append) setLoadingMore(true);
@@ -20,7 +18,7 @@ function Movies() {
 
       const res = await fetch(`/api/movies?page=${pageNum}`);
       if (!res.ok) throw new Error("Failed to fetch");
-      
+
       const data = await res.json();
 
       if (append) {
@@ -51,7 +49,6 @@ function Movies() {
     m.title?.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <p className="status-msg">Loading Movies...</p>;
   if (error) return <p className="error-msg">{error}</p>;
 
   return (
@@ -64,30 +61,35 @@ function Movies() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <h1 className="page-title">Movies</h1>
-
-      {filtered.length === 0 ? (
-        <p className="status-msg">No shows found for "{search}"</p>
-      ) : (
-      <div className="card-grid">
-        {filtered.map((movie) => (
-          <Card
-            key={movie.id}
-            item={movie}
-            isBookmarked={isBookmarked(movie.id)}
-            onBookmark={toggleBookmark}
-          />
-        ))}
+      <div className="section-header">
+        <div>
+          <h1 className="page-title">Movies</h1>
+          <p className="page-subtitle">Popular films, updated regularly</p>
+        </div>
+        {!loading && filtered.length > 0 && (
+          <span className="section-count">{filtered.length} titles</span>
+        )}
       </div>
+
+      {loading ? (
+        <SkeletonGrid />
+      ) : filtered.length === 0 ? (
+        <p className="status-msg">No movies found for "{search}"</p>
+      ) : (
+        <div className="card-grid">
+          {filtered.map((movie) => (
+            <Card key={movie.id} item={movie} />
+          ))}
+        </div>
       )}
 
-      {!search && page < totalPages && (
+      {!loading && !search && page < totalPages && (
         <button
           className="load-more-btn"
           onClick={handleLoadMore}
           disabled={loadingMore}
         >
-          {loadingMore ? "Loading..." : "Load More"}
+          {loadingMore ? "Loading…" : "Load More"}
         </button>
       )}
     </div>

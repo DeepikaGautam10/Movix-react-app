@@ -1,6 +1,7 @@
+import { useState } from "react";
 import useBookmark from "../hooks/useBookmark";
 import Card from "../components/Card";
-import { useState } from "react";
+import { BookmarkIcon } from "../components/Icons.jsx";
 
 function Bookmarks() {
   const { bookmarks } = useBookmark();
@@ -30,12 +31,23 @@ function Bookmarks() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <h1 className="page-title">Bookmarks</h1>
+      <div className="section-header">
+        <div>
+          <h1 className="page-title">Your Bookmarks</h1>
+          <p className="page-subtitle">Titles you've saved to watch later</p>
+        </div>
+        {bookmarks.length > 0 && (
+          <span className="section-count">{bookmarks.length} saved</span>
+        )}
+      </div>
 
       {bookmarks.length === 0 ? (
         <div className="empty-state">
+          <div className="empty-icon">
+            <BookmarkIcon />
+          </div>
           <h2>No Bookmarks Yet</h2>
-          <p>Click the bookmark icon on any movie or show to save it here.</p>
+          <p>Tap the bookmark icon on any movie or show to save it here.</p>
         </div>
       ) : filtered.length === 0 ? (
         <p className="status-msg">No bookmarks match "{search}"</p>

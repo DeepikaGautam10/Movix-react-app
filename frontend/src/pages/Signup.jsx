@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { PlayIcon, AlertIcon, ArrowLeftIcon } from "../components/Icons.jsx";
 import "../styles/Auth.css";
 
 function Signup() {
@@ -44,11 +45,21 @@ function Signup() {
   return (
     <div className="auth-page">
       <div className="auth-box">
-        <div className="auth-logo">MOVIX</div>
+        <div className="auth-logo">
+          <span className="logo-mark">
+            <PlayIcon />
+          </span>
+          MOVI<span className="logo-x">X</span>
+        </div>
         <h2 className="auth-title">Create account</h2>
         <p className="auth-sub">Join Movix to save your favourites</p>
 
-        {error && <div className="auth-error">{error}</div>}
+        {error && (
+          <div className="auth-error">
+            <AlertIcon />
+            {error}
+          </div>
+        )}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="auth-field">
@@ -89,6 +100,11 @@ function Signup() {
         <p className="auth-switch">
           Already have an account? <Link to="/login">Login</Link>
         </p>
+
+        <Link to="/" className="auth-back">
+          <ArrowLeftIcon />
+          Back to browsing
+        </Link>
       </div>
     </div>
   );

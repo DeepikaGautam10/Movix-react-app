@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "../components/Card";
-import useBookmark from "../hooks/useBookmark";
+import { SkeletonGrid } from "../components/Skeleton";
 
 function TV() {
   const [shows, setShows] = useState([]);
@@ -10,8 +10,6 @@ function TV() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
-
-  const { isBookmarked, toggleBookmark } = useBookmark();
 
   const fetchShows = async (pageNum, append = false) => {
     try {
@@ -48,10 +46,9 @@ function TV() {
   };
 
   const filtered = shows.filter((s) =>
-    s.title?.toLowerCase().includes(search.toLowerCase()),
+    s.title?.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <p className="status-msg">Loading TV shows...</p>;
   if (error) return <p className="error-msg">{error}</p>;
 
   return (
@@ -64,30 +61,35 @@ function TV() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <h1 className="page-title">TV Series</h1>
+      <div className="section-header">
+        <div>
+          <h1 className="page-title">TV Series</h1>
+          <p className="page-subtitle">Trending shows worth bingeing</p>
+        </div>
+        {!loading && filtered.length > 0 && (
+          <span className="section-count">{filtered.length} titles</span>
+        )}
+      </div>
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <SkeletonGrid />
+      ) : filtered.length === 0 ? (
         <p className="status-msg">No shows found for "{search}"</p>
       ) : (
         <div className="card-grid">
           {filtered.map((show) => (
-            <Card
-              key={show.id}
-              item={show}
-              isBookmarked={isBookmarked(show.id)}
-              onBookmark={toggleBookmark}
-            />
+            <Card key={show.id} item={show} />
           ))}
         </div>
       )}
 
-      {!search && page < totalPages && (
+      {!loading && !search && page < totalPages && (
         <button
           className="load-more-btn"
           onClick={handleLoadMore}
           disabled={loadingMore}
         >
-          {loadingMore ? "Loading..." : "Load More"}
+          {loadingMore ? "Loading…" : "Load More"}
         </button>
       )}
     </div>

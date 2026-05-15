@@ -1,6 +1,20 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth.jsx";
+import {
+  HomeIcon,
+  MovieIcon,
+  TvIcon,
+  BookmarkIcon,
+  PlayIcon,
+} from "./Icons.jsx";
 import "../styles/Navbar.css";
+
+const LINKS = [
+  { to: "/", label: "Home", icon: <HomeIcon />, end: true },
+  { to: "/movies", label: "Movies", icon: <MovieIcon /> },
+  { to: "/tv", label: "TV Series", icon: <TvIcon /> },
+  { to: "/bookmarks", label: "Bookmarks", icon: <BookmarkIcon /> },
+];
 
 function Navbar() {
   const { user, logout } = useAuth();
@@ -13,13 +27,22 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">MOVIX</div>
+      <div className="navbar-logo">
+        <span className="logo-mark">
+          <PlayIcon />
+        </span>
+        <span className="logo-text">
+          MOVI<span className="logo-x">X</span>
+        </span>
+      </div>
 
       <div className="navbar-links">
-        <NavLink to="/" end>Home</NavLink>
-        <NavLink to="/movies">Movies</NavLink>
-        <NavLink to="/tv">TV Series</NavLink>
-        <NavLink to="/bookmarks">Bookmarks</NavLink>
+        {LINKS.map((link) => (
+          <NavLink key={link.to} to={link.to} end={link.end} title={link.label}>
+            {link.icon}
+            <span>{link.label}</span>
+          </NavLink>
+        ))}
       </div>
 
       <div className="navbar-user">
@@ -29,14 +52,16 @@ function Navbar() {
               {user.name.charAt(0).toUpperCase()}
             </div>
             <div className="user-info">
-              <span className="user-name">{user.name.split(' ')[0]}</span>
+              <span className="user-name">{user.name.split(" ")[0]}</span>
               <button className="logout-btn" onClick={handleLogout}>
-                Logout
+                Sign out
               </button>
             </div>
           </>
         ) : (
-          <NavLink to="/login" className="login-link">Login</NavLink>
+          <NavLink to="/login" className="login-link">
+            Login
+          </NavLink>
         )}
       </div>
     </nav>
