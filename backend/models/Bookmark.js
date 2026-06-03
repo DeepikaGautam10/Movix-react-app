@@ -9,7 +9,6 @@ const bookmarkSchema = new mongoose.Schema({
   tmdbId: {
     type: Number,
     required: true,
-    unique: true,
   },
   title: {
     type: String,

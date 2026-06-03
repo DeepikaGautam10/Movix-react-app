@@ -4,7 +4,7 @@ const axios = require("axios");
 const router = express.Router();
 
 let movieCache = {};
-const CACHE_TTL = 5 * 60 * 1000;
+const CACHE_TTL = 5 * 60 * 1000; // 300000ms = 5 minutes
 
 router.get("/", async (req, res) => {
   const page = req.query.page || 1;
